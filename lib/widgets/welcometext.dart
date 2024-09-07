@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
 
-class Welcome_T extends StatelessWidget {
-  const Welcome_T({super.key});
+class WelcomeT extends StatelessWidget {
+  final String user;
+
+  const WelcomeT({
+    super.key,
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              'Hey, Selena',
-              style: TextStyle(
+              user,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 28,
                 fontWeight: FontWeight.w800,
               ),
             ),
-            Text(
+            const Text(
               'Welcome back',
               style: TextStyle(
                 color: Color.fromRGBO(255, 255, 255, 0.8),

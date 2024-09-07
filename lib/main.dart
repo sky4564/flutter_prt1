@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/services/api_service.dart';
 // import 'package:untitled/widgets/button.dart';/
-import 'package:untitled/widgets/welcome_text.dart';
+import 'package:untitled/widgets/welcometext.dart';
 
 void main() {
+  ApiService().getTodaysToons();
   runApp(const App());
 }
 
@@ -24,7 +26,8 @@ class App extends StatelessWidget {
               SizedBox(
                 height: 80,
               ),
-              Welcome_T(),
+
+              WelcomeT(user: 'kaki'),
 
               // const SizedBox(
               //   height: 120,
