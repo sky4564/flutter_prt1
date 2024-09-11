@@ -1,3 +1,4 @@
 {
-  "cmake.sourceDirectory": "C:/untitled/windows"
+  "cmake.sourceDirectory": "C:/untitled/windows",
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
