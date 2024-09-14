@@ -14,7 +14,7 @@ class TodoModel {
     return TodoModel(
       id: json['id'],
       title: json['title'],
-      isCompleted: json['is_completed'],
+      isCompleted: json['is_completed'] ?? false,
     );
   }
 }

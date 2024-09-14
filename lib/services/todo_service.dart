@@ -7,8 +7,7 @@ class TodoService {
 
   Future<List<TodoModel>> getTodos() async {
     try {
-      final response =
-          await _supabase.from('todos').select().order('id', ascending: true);
+      final response = await _supabase.from('todos').select('*');
 
       return (response as List)
           .map((todo) => TodoModel.fromJson(todo))
