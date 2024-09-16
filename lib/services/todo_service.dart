@@ -8,19 +8,18 @@ class TodoService {
   Future<List<TodoModel>> getTodos() async {
     try {
       debugPrint('Fetching todos from Supabase...');
+      final userId = _supabase.auth.currentUser!.id;
       final response = await _supabase
           .from('todos')
           .select()
+          .eq('user_id', userId)
           .order('created_at', ascending: false);
-      debugPrint('Supabase response: $response');
       final todos = (response as List).map((todo) {
         debugPrint('Processing todo: $todo');
         return TodoModel.fromJson(todo);
       }).toList();
-      debugPrint('Processed ${todos.length} todos');
       return todos;
     } catch (error) {
-      debugPrint('Error fetching todos: $error');
       throw Exception('Failed to fetch todos: $error');
     }
   }
