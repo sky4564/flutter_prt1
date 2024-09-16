@@ -54,30 +54,42 @@ class _HomeScreenState extends State<HomeScreen> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
+            return AnimatedList(
+              initialItemCount: snapshot.data!.length,
+              itemBuilder: (context, index, animation) {
                 final todo = snapshot.data![index];
-                return ListTile(
-                  title: Text(
-                    todo.title,
-                    style: TextStyle(
-                      decoration: todo.isCompleted ?? false
-                          ? TextDecoration.lineThrough
-                          : null,
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(-1, 0),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: Dismissible(
+                    key: Key(todo.id.toString()),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      child: const Icon(Icons.delete, color: Colors.white),
                     ),
-                  ),
-                  leading: Checkbox(
-                    value: todo.isCompleted ?? false,
-                    onChanged: (bool? value) {
-                      _toggleTodoCompletion(todo);
-                    },
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
+                    onDismissed: (direction) {
                       _deleteTodo(todo);
                     },
+                    child: ListTile(
+                      title: Text(
+                        todo.title,
+                        style: TextStyle(
+                          decoration: todo.isCompleted ?? false
+                              ? TextDecoration.lineThrough
+                              : null,
+                        ),
+                      ),
+                      leading: Checkbox(
+                        value: todo.isCompleted ?? false,
+                        onChanged: (bool? value) {
+                          _toggleTodoCompletion(todo);
+                        },
+                      ),
+                    ),
                   ),
                 );
               },
