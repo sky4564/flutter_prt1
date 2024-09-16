@@ -12,14 +12,11 @@ class TodoService {
           .from('todos')
           .select()
           .order('created_at', ascending: false);
-
       debugPrint('Supabase response: $response');
-
       final todos = (response as List).map((todo) {
         debugPrint('Processing todo: $todo');
         return TodoModel.fromJson(todo);
       }).toList();
-
       debugPrint('Processed ${todos.length} todos');
       return todos;
     } catch (error) {
@@ -36,10 +33,8 @@ class TodoService {
         'isCompleted': false,
         'user_id': userId,
       };
-
       final response =
           await _supabase.from('todos').insert(newTodo).select().single();
-
       return TodoModel.fromJson(response);
     } catch (error) {
       debugPrint('Error adding todo: $error');

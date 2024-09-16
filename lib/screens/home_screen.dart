@@ -21,6 +21,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _addTodo(String title) async {
     await _todoService.addTodo(title);
+    _refreshTodos();
+  }
+
+  Future<void> _toggleTodoCompletion(TodoModel todo) async {
+    final updatedTodo =
+        todo.copyWith(isCompleted: !(todo.isCompleted ?? false));
+    await _todoService.updateTodo(updatedTodo);
+    _refreshTodos();
+  }
+
+  Future<void> _deleteTodo(TodoModel todo) async {
+    await _todoService.deleteTodo(todo.id);
+    _refreshTodos();
+  }
+
+  void _refreshTodos() {
     setState(() {
       _todosFuture = _todoService.getTodos();
     });
@@ -43,17 +59,24 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, index) {
                 final todo = snapshot.data![index];
                 return ListTile(
-                  title: Text(todo.title),
+                  title: Text(
+                    todo.title,
+                    style: TextStyle(
+                      decoration: todo.isCompleted ?? false
+                          ? TextDecoration.lineThrough
+                          : null,
+                    ),
+                  ),
                   leading: Checkbox(
                     value: todo.isCompleted ?? false,
                     onChanged: (bool? value) {
-                      // TODO: Implement toggle completion
+                      _toggleTodoCompletion(todo);
                     },
                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
-                      // TODO: Implement delete
+                      _deleteTodo(todo);
                     },
                   ),
                 );

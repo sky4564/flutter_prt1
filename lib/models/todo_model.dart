@@ -1,7 +1,7 @@
 class TodoModel {
   final int id;
   final String title;
-  final bool? isCompleted;
+  bool? isCompleted;
   final String userId;
   final DateTime? createdAt;
 
@@ -31,5 +31,21 @@ class TodoModel {
       'isCompleted': isCompleted,
       'user_id': userId,
     };
+  }
+
+  TodoModel copyWith({
+    int? id,
+    String? title,
+    bool? isCompleted,
+    String? userId,
+    DateTime? createdAt,
+  }) {
+    return TodoModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      isCompleted: isCompleted ?? this.isCompleted,
+      userId: userId ?? this.userId,
+      createdAt: createdAt ?? this.createdAt,
+    );
   }
 }
